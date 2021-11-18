@@ -118,12 +118,6 @@ function buildTypes() {
     var paths = fs.readdirSync(BUILD_DIR + '/src-noconflict');
     var moduleRef = '/// <reference path="./ace-modules.d.ts" />';
 
-    fs.readdirSync(BUILD_DIR + '/src-noconflict/snippets').forEach(function(path) {
-        paths.push("snippets/" + path);
-    });
-
-    var moduleNameRegex = /^(mode|theme|ext|keybinding)-|^snippets\//;
-
     var pathModules = [
         "declare module 'ace-builds/webpack-resolver';",
         "declare module 'ace-builds/src-noconflict/ace';"
@@ -375,7 +369,6 @@ function buildSubmodule(options, extra, file, callback) {
 }
 
 function buildAce(options, callback) {
-    var snippetFiles = jsFileList("lib/ace/snippets");
     var modeNames = modeList();
 
     buildCore(options, {outputFile: "ace.js"}, addCb());
@@ -385,12 +378,6 @@ function buildAce(options, callback) {
             projectType: "mode",
             require: ["ace/mode/" + name]
         }, "mode-" + name, addCb());
-    });
-    // snippets
-    modeNames.forEach(function(name) {
-        buildSubmodule(options, {
-            require: ["ace/snippets/" + name]
-        }, "snippets/" + name, addCb());
     });
     // themes
     jsFileList("lib/ace/theme").forEach(function(name) {
