@@ -170,6 +170,7 @@ export namespace Ace {
 
   export interface VirtualRendererOptions {
     animatedScroll: boolean;
+    lsfWorkerType: string;
     showInvisibles: boolean;
     showPrintMargin: boolean;
     printMarginColumn: number;
